@@ -1,27 +1,15 @@
-# Spring Boot on Docker connecting to MySQL Docker container
+Task 3
 
-1. Use MySQL Image published by Docker Hub (https://hub.docker.com/_/mysql/)
-Command to run the mysql container
-`docker run --name mysql-standalone -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=test -e MYSQL_USER=sa -e MYSQL_PASSWORD=password -d mysql:5.6`
+1. I built users-mysql.jar with IntelliJ and placed it within target folder. Minikube hase been used as testing environment. 
+   Script start.sh could be used for building docker image users-mysql and setting up deployments with java app and DB.
 
-2. In the Spring Boot Application, use the same container name of the mysql instance in the application.properties
-`spring.datasource.url = jdbc:mysql://mysql-standalone:3306/test`
+2. I used type: LoadBalancer in the configuration for application service, but it is not possible to create external load balancer with minikube, so I can't debug and check it.
 
-3. Create a `Dockerfile` for creating a docker image from the Spring Boot Application
-`FROM openjdk:8
-ADD target/users-mysql.jar users-mysql.jar
-EXPOSE 8086
-ENTRYPOINT ["java", "-jar", "users-mysql.jar"]`
+3. I suppose that this point is assume that I need to create liveness/readiness probes, but from home task it is not clear what logic checks should execute.
+   If application crash or has no database connection, it will be restarted with default restartPolicy.
+   On a real project, I would ask for software developer's advice, because it is hard to implement effective health check without good understanding of application structure.
 
-4. Using the Dockerfile create the Docker image.
-From the directory of Dockerfile - `docker build . -t users-mysql`
+4. MySQL deployment has been added at point 1.
 
-5. Run the Docker image (users-mysql) created in #4.
-`docker build . -t users-mysql`
-
-## Useful Docker commands
-- `docker images`
-- `docker container ls`
-- `docker logs <container_name>`
-- `docker container rm <container_name`
-- `docker image rm <image_name`
+5. I would try to implement HA of a database with Percona XtraDB Cluster.
+   Percona cluster can be installed with script percona.sh, but I did not have enough time to find a way how to link database cluster with java application.
