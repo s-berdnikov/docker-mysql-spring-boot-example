@@ -1,7 +1,7 @@
 Task 3
 
-1. I built users-mysql.jar with IntelliJ and placed it within target folder. Minikube hase been used as testing environment. 
-   Script start.sh could be used for building docker image users-mysql and setting up deployments with java app and DB.
+1. I built users-mysql.jar with IntelliJ and placed it within target folder. Minikube has been used as testing environment. 
+   Script start.sh could be used for building docker image users-mysql and setting up deployments for java app and DB.
 
 2. I used type: LoadBalancer in the configuration for application service, but it is not possible to create external load balancer with minikube, so I can't debug and check it.
 
